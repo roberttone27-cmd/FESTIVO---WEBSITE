@@ -68,5 +68,29 @@
     "price": "200 lei",
     "meta": "Proiecții pentru evenimente",
     "image": "WhatsApp Image 2026-08-26 at 10.07.20.jpeg"
+  },
+  {
+    "id": "foodSignature",
+    "name": "Signature BBQ Experience",
+    "category": "Mâncare",
+    "price": 12500,
+    "unit": " / meniu",
+    "meta": "50–60 persoane • proțap + grill + aperitiv rece + platouri de fructe"
+  },
+  {
+    "id": "foodGrill",
+    "name": "Grill Experience",
+    "category": "Mâncare",
+    "price": 9000,
+    "unit": " / meniu",
+    "meta": "50–60 persoane • porc + oaie + grill + garnituri"
+  },
+  {
+    "id": "foodEssential",
+    "name": "Essential BBQ",
+    "category": "Mâncare",
+    "price": 7500,
+    "unit": " / meniu",
+    "meta": "50–60 persoane • porc SAU oaie + grill + garnituri"
   }
 ]

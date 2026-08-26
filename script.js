@@ -13,7 +13,10 @@ const products = [
   {id:'redcarpet',name:'Covor roșu',category:'Decor',price:200,unit:' / bucată',meta:'15 × 1 m',image:'WhatsApp Image 2026-08-26 at 10.01.55 (4).jpeg',tags:['wedding','corporate','party'],type:'decor'},
   {id:'flowers',name:'Arcadă cu flori',category:'Decor',price:300,unit:' / eveniment',meta:'Decor floral',image:'WhatsApp Image 2026-08-26 at 10.01.55 (2).jpeg',tags:['wedding','party'],type:'decor'},
   {id:'projector',name:'Proiector Epson 4K',category:'Audio / video',price:200,unit:' / eveniment',meta:'Proiecții & prezentări',image:'WhatsApp Image 2026-08-26 at 10.07.20.jpeg',tags:['wedding','corporate','party'],type:'av'},
-  {id:'dj',name:'Mixer DJ',category:'Audio / video',price:500,unit:' / eveniment',meta:'Setup DJ',image:'WhatsApp Image 2026-08-26 at 10.07.22.jpeg',tags:['wedding','party'],type:'av'}
+  {id:'dj',name:'Mixer DJ',category:'Audio / video',price:500,unit:' / eveniment',meta:'Setup DJ',image:'WhatsApp Image 2026-08-26 at 10.07.22.jpeg',tags:['wedding','party'],type:'av'},
+  {id:'foodSignature',name:'Signature BBQ Experience',category:'Mâncare',price:12500,unit:' / meniu',meta:'50–60 persoane • proțap + grill + aperitiv rece + platouri de fructe',image:'food/WhatsApp Image 2026-08-26 at 12.25.04.jpeg',tags:['wedding','party','corporate'],type:'food',guests:'50–60'},
+  {id:'foodGrill',name:'Grill Experience',category:'Mâncare',price:9000,unit:' / meniu',meta:'50–60 persoane • porc + oaie + grill + garnituri',image:'food/WhatsApp Image 2026-08-26 at 12.25.38.jpeg',tags:['wedding','party','corporate'],type:'food',guests:'50–60'},
+  {id:'foodEssential',name:'Essential BBQ',category:'Mâncare',price:7500,unit:' / meniu',meta:'50–60 persoane • porc SAU oaie + grill + garnituri',image:'food/WhatsApp Image 2026-08-26 at 12.25.37.jpeg',tags:['wedding','party','corporate'],type:'food',guests:'50–60'}
 ];
 
 const state={step:1,eventType:'party',guests:40,date:'',location:'',venue:'outdoor',season:'summer',style:'balanced',selected:{},recommendations:[],hasOptimized:false};
@@ -38,6 +41,14 @@ function buildPlan(){
   if(state.venue!=='indoor'){
     if(g<=40) add('tent40',1,'Soluție completă pentru până la 40 persoane: mese, iluminat și mochetă.','recommended');
     else add('tent10',ceilDiv(g,40),`${g} invitați → aproximativ ${ceilDiv(g,40)} module de 50 m² pentru o configurație de bază.`,'recommended');
+  }
+
+  // Food menus are currently fixed offers for 50–60 people only.
+  // We do not scale them automatically until the supplier gives us rules for larger/smaller groups.
+  if(g>=50 && g<=60){
+    if(state.style==='premium') add('foodSignature',1,'Meniul complet pentru 50–60 persoane, cu aperitiv rece și platouri de fructe.','recommended');
+    else if(state.style==='social') add('foodGrill',1,'Meniu pentru 50–60 persoane, construit în jurul preparatelor la grill.','recommended');
+    else add('foodEssential',1,'Meniu pentru 50–60 persoane, cu porc sau oaie și preparate la grill.','optional');
   }
 
   if(type==='kids'){

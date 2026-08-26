@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Închiriere premium pentru evenimente: corturi, mobilier, echipamente, decor și entertainment.">
+  <title>EVENTA — Tot ce ai nevoie pentru eveniment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="EVENTA">
+      <span class="brand-mark">E</span>
+      <span>EVENTA</span>
+    </a>
+    <nav>
+      <a href="#catalog">Catalog</a>
+      <a href="#how">Cum funcționează</a>
+      <a href="#quote">Cerere ofertă</a>
+    </nav>
+    <a class="header-cta" href="#quote">Configurează evenimentul</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">EVENT RENTAL • ROMÂNIA</p>
+        <h1>Evenimentul tău.<br><em>Totul pregătit.</em></h1>
+        <p class="hero-text">Corturi, mobilier, decor, echipamente și entertainment — într-un singur loc.</p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="#catalog">Vezi echipamentele</a>
+          <a class="text-link" href="#quote">Cere o ofertă <span>↗</span></a>
+        </div>
+        <div class="hero-proof">
+          <span>01</span><span>Livrare & instalare</span>
+          <span>02</span><span>Ofertă personalizată</span>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="assets/WhatsApp Image 2026-08-26 at 10.01.56.jpeg" alt="Masă pregătită pentru un eveniment">
+        <div class="floating-card">
+          <span>PLANIFICĂ</span>
+          <strong>Evenimentul tău</strong>
+          <small>Alege echipamentele. Noi ne ocupăm de restul.</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro">
+      <p class="eyebrow">O SOLUȚIE, MAI PUȚINE GRIJI</p>
+      <h2>Nu închiriezi doar echipamente.<br><em>Construiești atmosfera.</em></h2>
+      <p>De la o petrecere în grădină până la un eveniment complet, alegi ce ai nevoie și ne trimiți cererea. Primești o ofertă adaptată evenimentului tău.</p>
+    </section>
+
+    <section class="categories">
+      <a href="#catalog" data-filter="Corturi"><span>01</span><strong>Corturi & pavilioane</strong><b>↗</b></a>
+      <a href="#catalog" data-filter="Mese & scaune"><span>02</span><strong>Mese & scaune</strong><b>↗</b></a>
+      <a href="#catalog" data-filter="Distracție"><span>03</span><strong>Distracție</strong><b>↗</b></a>
+      <a href="#catalog" data-filter="Decor"><span>04</span><strong>Decor</strong><b>↗</b></a>
+      <a href="#catalog" data-filter="Echipamente"><span>05</span><strong>Echipamente</strong><b>↗</b></a>
+      <a href="#catalog" data-filter="Audio / video"><span>06</span><strong>Audio & video</strong><b>↗</b></a>
+    </section>
+
+    <section class="catalog" id="catalog">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">CATALOG</p>
+          <h2>Alege ce ai nevoie.</h2>
+        </div>
+        <div class="filters" id="filters"></div>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <section class="feature">
+      <div class="feature-image">
+        <img src="assets/WhatsApp Image 2026-08-26 at 10.01.55 (3).jpeg" alt="Masă și scaune pregătite pentru eveniment">
+      </div>
+      <div class="feature-copy">
+        <p class="eyebrow">CONFIGURATORUL URMEAZĂ</p>
+        <h2>Spune-ne cum arată evenimentul tău.</h2>
+        <p>În următoarea etapă transformăm catalogul într-un configurator: număr de invitați, tip de eveniment, locație, dată și echipamente recomandate.</p>
+        <a class="button button-dark" href="#quote">Începe configurarea</a>
+      </div>
+    </section>
+
+    <section class="steps" id="how">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">SIMPLU</p>
+          <h2>De la idee la eveniment.</h2>
+        </div>
+      </div>
+      <div class="step-grid">
+        <article><span>01</span><h3>Alegi</h3><p>Descoperi echipamentele și construiești lista pentru evenimentul tău.</p></article>
+        <article><span>02</span><h3>Ne spui detaliile</h3><p>Data, locația, numărul de invitați și ce îți dorești.</p></article>
+        <article><span>03</span><h3>Primești oferta</h3><p>Îți pregătim o ofertă personalizată și stabilim toate detaliile.</p></article>
+      </div>
+    </section>
+
+    <section class="quote" id="quote">
+      <div>
+        <p class="eyebrow">CERERE OFERTĂ</p>
+        <h2>Hai să construim<br><em>evenimentul.</em></h2>
+        <p>Lasă-ne câteva detalii. Catalogul și configuratorul vor putea trimite automat lista ta de produse în cerere.</p>
+      </div>
+      <form id="quoteForm">
+        <label>Nume<input required name="name" placeholder="Numele tău"></label>
+        <label>Telefon<input required name="phone" placeholder="07xx xxx xxx"></label>
+        <div class="form-row">
+          <label>Tip eveniment<input name="event" placeholder="Nuntă, aniversare, corporate..."></label>
+          <label>Invitați<input name="guests" type="number" min="1" placeholder="40"></label>
+        </div>
+        <label>Mesaj<textarea name="message" rows="4" placeholder="Spune-ne ce ai nevoie..."></textarea></label>
+        <button class="button button-light" type="submit">Trimite cererea <span>↗</span></button>
+        <p class="form-note" id="formNote"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand"><span class="brand-mark">E</span><span>EVENTA</span></div>
+    <p>Închirieri premium pentru evenimente.</p>
+    <span>© 2026</span>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

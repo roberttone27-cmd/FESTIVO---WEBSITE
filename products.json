@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Tobogan gonflabil",
+    "category": "Distracție",
+    "price": "600 lei",
+    "meta": "6 × 4 × 7 m",
+    "image": "WhatsApp Image 2026-08-26 at 10.02.15.jpeg"
+  },
+  {
+    "name": "Tobogan castel",
+    "category": "Distracție",
+    "price": "300 lei",
+    "meta": "3 × 3 m",
+    "image": "WhatsApp Image 2026-08-26 at 10.02.20.jpeg"
+  },
+  {
+    "name": "Mese & scaune cu veselă",
+    "category": "Mese & scaune",
+    "price": "30 lei / scaun",
+    "meta": "Mesele și vesela incluse",
+    "image": "WhatsApp Image 2026-08-26 at 10.01.56.jpeg"
+  },
+  {
+    "name": "Pavilion simplu",
+    "category": "Corturi",
+    "price": "200 lei",
+    "meta": "3 × 3 m",
+    "image": "WhatsApp Image 2026-08-26 at 10.07.28.jpeg"
+  },
+  {
+    "name": "Vitrină frigorifică verticală",
+    "category": "Echipamente",
+    "price": "250 lei",
+    "meta": "Depozitare & servire rece",
+    "image": "WhatsApp Image 2026-08-26 at 10.01.55.jpeg"
+  },
+  {
+    "name": "Arcadă cu flori",
+    "category": "Decor",
+    "price": "300 lei",
+    "meta": "Decor floral",
+    "image": "WhatsApp Image 2026-08-26 at 10.01.55 (2).jpeg"
+  },
+  {
+    "name": "Covor roșu",
+    "category": "Decor",
+    "price": "200 lei",
+    "meta": "15 × 1 m",
+    "image": "WhatsApp Image 2026-08-26 at 10.01.55 (4).jpeg"
+  },
+  {
+    "name": "Mixer DJ",
+    "category": "Audio / video",
+    "price": "500 lei",
+    "meta": "Setup DJ",
+    "image": "WhatsApp Image 2026-08-26 at 10.07.22.jpeg"
+  },
+  {
+    "name": "Aerotermă verticală",
+    "category": "Echipamente",
+    "price": "200 lei",
+    "meta": "Încălzire pentru exterior",
+    "image": "WhatsApp Image 2026-08-26 at 10.07.23.jpeg"
+  },
+  {
+    "name": "Proiector Epson 4K",
+    "category": "Audio / video",
+    "price": "200 lei",
+    "meta": "Proiecții pentru evenimente",
+    "image": "WhatsApp Image 2026-08-26 at 10.07.20.jpeg"
+  }
+]

@@ -88,21 +88,19 @@ function renderStep(){
   document.querySelectorAll('.config-step').forEach(el=>el.classList.toggle('active',Number(el.dataset.step)===state.step));
   document.querySelectorAll('.step-dot').forEach(el=>el.classList.toggle('active',Number(el.dataset.step)<=state.step));
   document.querySelector('#prevBtn').disabled=state.step===1;
-  document.querySelector('#nextBtn').textContent=state.step===4?'Generează planul →':'Continuă →';
+  document.querySelector('#nextBtn').textContent=state.step===2?'Vezi oferta →':'Continuă →';
   updateSummary();
-  if(state.step===4){renderRecommendations();renderConfiguratorCatalog();}
+  if(state.step===2){renderConfiguratorCatalog();}
 }
 
 function updateSummary(){
   const list=entries(), box=document.querySelector('#configSummary');
   box.innerHTML=list.length?list.map(({product,qty})=>`<div class="summary-item"><span>${product.name} × ${qty}</span><span class="summary-item-right"><strong>${money(product.price*qty)}</strong><button class="summary-remove" type="button" data-remove="${product.id}" aria-label="Șterge ${product.name}" title="Șterge">×</button></span></div>`).join(''):'<p class="empty-summary">Încă nu ai ales echipamente.</p>';
-  document.querySelectorAll('[data-remove]').forEach(btn=>btn.onclick=()=>{delete state.selected[btn.dataset.remove];state.hasOptimized=true;updateSummary();renderConfiguratorCatalog();if(state.step===4)renderRecommendations();});
+  document.querySelectorAll('[data-remove]').forEach(btn=>btn.onclick=()=>{delete state.selected[btn.dataset.remove];state.hasOptimized=true;updateSummary();renderConfiguratorCatalog();});
   document.querySelector('#configTotal').textContent=money(total());
   document.querySelector('#summaryGuests').textContent=state.guests?`${state.guests} persoane`:'—';
-  document.querySelector('#summaryType').textContent=labels[state.eventType]||'—';
   document.querySelector('#summaryDate').textContent=state.date?new Date(state.date+'T12:00:00').toLocaleDateString('ro-RO'):'—';
   document.querySelector('#summaryLocation').textContent=state.location||'—';
-  const meta=document.querySelector('#summaryVenue'); if(meta) meta.textContent=venueLabels[state.venue];
 }
 
 function renderRecommendations(){
@@ -119,11 +117,12 @@ function renderConfiguratorCatalog(filter='Toate'){
   document.querySelector('#configFilters').dataset.active=active;
   document.querySelector('#configFilters').innerHTML=categories.map(c=>`<button class="filter ${c===active?'active':''}" data-cat="${c}">${c}</button>`).join('');
   const list=active==='Toate'?[...products].sort((a,b)=>(a.type==='food'?0:1)-(b.type==='food'?0:1)):products.filter(p=>p.category===active);
-  document.querySelector('#configProducts').innerHTML=list.map(p=>{const q=state.selected[p.id]||0;return `<article class="config-product"><div class="cp-image"><img src="assets/${p.image}" alt="${p.name}"></div><div class="cp-body"><small>${p.category}</small><h3>${p.name}</h3><p>${p.meta}</p><div class="cp-bottom"><strong>${money(p.price)}<small>${p.unit}</small></strong><div class="qty"><button data-minus="${p.id}">−</button><b>${q}</b><button data-plus="${p.id}">+</button></div></div></div></article>`}).join('');
-  document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));
-  document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));
+  document.querySelector('#configProducts').innerHTML=list.map(p=>{const q=state.selected[p.id]||0;return `<article class="config-product" data-open-product="${p.id}" tabindex="0" role="button" aria-label="Vezi detalii ${p.name}"><div class="cp-image"><img src="assets/${p.image}" alt="${p.name}"></div><div class="cp-body"><small>${p.category}</small><h3>${p.name}</h3><p>${p.meta}</p><div class="cp-bottom"><strong>${money(p.price)}<small>${p.unit}</small></strong><div class="qty"><button type="button" data-minus="${p.id}" aria-label="Scade ${p.name}">−</button><b>${q}</b><button type="button" data-plus="${p.id}" aria-label="Adaugă ${p.name}">+</button></div></div></div></article>`}).join('');
+  document.querySelectorAll('[data-open-product]').forEach(card=>{card.onclick=e=>{if(e.target.closest('.qty'))return;openProduct(card.dataset.openProduct)};card.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('.qty')){e.preventDefault();openProduct(card.dataset.openProduct)}}});
+  document.querySelectorAll('[data-plus]').forEach(b=>b.onclick=e=>{e.stopPropagation();changeQty(b.dataset.plus,1)});
+  document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=e=>{e.stopPropagation();changeQty(b.dataset.minus,-1)});
 }
-function changeQty(id,delta){state.selected[id]=Math.max(0,(state.selected[id]||0)+delta);if(!state.selected[id])delete state.selected[id];state.hasOptimized=true;renderConfiguratorCatalog();updateSummary();if(state.step===4)renderRecommendations();}
+function changeQty(id,delta){state.selected[id]=Math.max(0,(state.selected[id]||0)+delta);if(!state.selected[id])delete state.selected[id];state.hasOptimized=true;renderConfiguratorCatalog();updateSummary();}
 
 const foodDetails={
   foodSignature:{title:'Meniu Complet',subtitle:'Meniu complet pentru 50–60 persoane',intro:'O experiență completă de barbecue și servire la eveniment, cu preparate live, aperitiv rece și platouri de fructe.',sections:[
@@ -170,8 +169,9 @@ function renderCatalog(filter='Toate'){
 
 
 function validateStep(){
-  if(state.step===2 && (!state.guests||state.guests<1)){alert('Introdu un număr de invitați.');return false;}
-  if(state.step===3 && !state.location.trim()){alert('Introdu localitatea evenimentului.');return false;}
+  if(state.step===1 && (!state.guests||state.guests<1)){alert('Introdu un număr de invitați.');return false;}
+  if(state.step===1 && !state.date){alert('Alege data evenimentului.');return false;}
+  if(state.step===1 && !state.location.trim()){alert('Introdu localitatea evenimentului.');return false;}
   return true;
 }
 
@@ -195,13 +195,9 @@ function quoteText(){
   const lines=[
     'EVENTA — CERERE DE OFERTĂ',
     '',
-    `Tip eveniment: ${labels[state.eventType]||state.eventType}`,
     `Invitați: ${state.guests||'-'}`,
     `Data: ${state.date||'-'}`,
     `Localitate: ${state.location||'-'}`,
-    `Locație: ${venueLabels[state.venue]||state.venue}`,
-    `Sezon: ${seasonLabels[state.season]||state.season}`,
-    `Stil: ${state.style||'-'}`,
     '',
     'OFERTA / PLANUL SELECTAT:'
   ];
@@ -210,15 +206,24 @@ function quoteText(){
   return lines.join('\n');
 }
 function sendQuoteByEmail(){
+  // Emailul nu mai este folosit pentru trimiterea cererii.
+  sendQuoteByWhatsApp();
+}
+function sendQuoteByWhatsApp(){
   const form=document.querySelector('#quoteForm');
   const fd=form?new FormData(form):null;
   const contact=[];
-  if(fd){for(const [key,value] of fd.entries()){if(String(value).trim()) contact.push(`${key}: ${value}`);}}
-  const body=quoteText()+(contact.length?'\n\nDATE CLIENT:\n'+contact.join('\n'):'');
-  window.location.href=`mailto:${EVENTA_EMAIL}?subject=${encodeURIComponent('Cerere ofertă EVENTA — '+(labels[state.eventType]||'Eveniment'))}&body=${encodeURIComponent(body)}`;
-}
-function sendQuoteByWhatsApp(){
-  const text=quoteText();
+  if(fd){
+    const name=String(fd.get('name')||'').trim();
+    const phone=String(fd.get('phone')||'').trim();
+    const email=String(fd.get('email')||'').trim();
+    const message=String(fd.get('message')||'').trim();
+    if(name) contact.push(`Nume: ${name}`);
+    if(phone) contact.push(`Telefon: ${phone}`);
+    if(email) contact.push(`Email: ${email}`);
+    if(message) contact.push(`Mesaj: ${message}`);
+  }
+  const text=quoteText()+(contact.length?'\n\nDATE CLIENT:\n'+contact.join('\n'):'');
   window.open(`https://wa.me/${EVENTA_WHATSAPP}?text=${encodeURIComponent(text)}`,'_blank','noopener');
 }
 function addWhatsAppButton(){
@@ -236,15 +241,12 @@ function init(){
   document.querySelector('#guests').oninput=e=>{state.guests=Math.max(1,Number(e.target.value)||0);updateSummary();};
   document.querySelector('#eventDate').oninput=e=>{state.date=e.target.value;updateSummary();};
   document.querySelector('#location').oninput=e=>{state.location=e.target.value;updateSummary();};
-  document.querySelectorAll('[name="venue"]').forEach(r=>r.onchange=e=>{state.venue=e.target.value;});
-  document.querySelectorAll('[name="season"]').forEach(r=>r.onchange=e=>{state.season=e.target.value;});
-  document.querySelectorAll('[name="style"]').forEach(r=>r.onchange=e=>{state.style=e.target.value;});
   document.querySelector('#configFilters').onclick=e=>{if(e.target.dataset.cat){document.querySelector('#configFilters').dataset.active=e.target.dataset.cat;renderConfiguratorCatalog(e.target.dataset.cat);}};
-  document.querySelector('#nextBtn').onclick=()=>{if(!validateStep())return;if(state.step<4){state.step++;renderStep();}else generateFinal();};
+  document.querySelector('#nextBtn').onclick=()=>{if(!validateStep())return;if(state.step<3){state.step++;renderStep();}else generateFinal();};
   document.querySelector('#prevBtn').onclick=()=>{if(state.step>1){state.step--;document.querySelector('#nextBtn').style.display='inline-flex';document.querySelector('#finalStep').classList.remove('active');renderStep();}};
   document.querySelector('#productModal').addEventListener('click',e=>{if(e.target.id==='productModal')closeProduct();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeProduct();});
-  document.querySelector('#quoteForm').onsubmit=e=>{e.preventDefault();sendQuoteByEmail();document.querySelector('#formSuccess').hidden=false;document.querySelector('#submitQuote').textContent='Deschide emailul pentru trimitere ✓';};
+  document.querySelector('#quoteForm').onsubmit=e=>{e.preventDefault();sendQuoteByWhatsApp();document.querySelector('#formSuccess').hidden=false;document.querySelector('#submitQuote').textContent='WhatsApp deschis ✓';};
   renderStep();
 }
 document.addEventListener('DOMContentLoaded',init);

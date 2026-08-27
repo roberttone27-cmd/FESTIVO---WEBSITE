@@ -189,7 +189,6 @@ function renderQuoteSummary(){
   wrap.innerHTML=entries().length?`<div class="quote-plan-head"><span>${labels[state.eventType]} · ${state.guests} persoane</span><strong>${money(total())}</strong></div>${entries().map(({product,qty})=>`<div class="quote-plan-item"><span>${product.name}</span><span>${qty} × ${money(product.price)} = <b>${money(product.price*qty)}</b></span></div>`).join('')}`:'<p>Nu ai adăugat încă echipamente. Poți reveni la pasul 4.</p>';
 }
 
-const EVENTA_EMAIL='roberttone27@gmail.com';
 const EVENTA_WHATSAPP='40740841943';
 function quoteText(){
   const lines=[
@@ -216,11 +215,9 @@ function sendQuoteByWhatsApp(){
   if(fd){
     const name=String(fd.get('name')||'').trim();
     const phone=String(fd.get('phone')||'').trim();
-    const email=String(fd.get('email')||'').trim();
     const message=String(fd.get('message')||'').trim();
     if(name) contact.push(`Nume: ${name}`);
     if(phone) contact.push(`Telefon: ${phone}`);
-    if(email) contact.push(`Email: ${email}`);
     if(message) contact.push(`Mesaj: ${message}`);
   }
   const text=quoteText()+(contact.length?'\n\nDATE CLIENT:\n'+contact.join('\n'):'');
@@ -235,8 +232,30 @@ function addWhatsAppButton(){
   document.body.appendChild(btn);
 }
 
+
+function addMobileConfiguratorButton(){
+  if(document.querySelector('#mobileConfiguratorCta'))return;
+  const btn=document.createElement('a');
+  btn.id='mobileConfiguratorCta';
+  btn.href='#configurator';
+  btn.innerHTML='<span>CONFIGUREAZĂ EVENIMENTUL</span><b>→</b>';
+  btn.style.cssText='position:fixed;left:16px;right:16px;bottom:16px;z-index:89;display:none;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-radius:999px;background:#1f1f1c;color:#fff;text-decoration:none;font:700 11px/1 Arial,sans-serif;letter-spacing:.08em;box-shadow:0 10px 30px rgba(0,0,0,.2);';
+  document.body.appendChild(btn);
+  const mq=window.matchMedia('(max-width: 700px)');
+  const update=()=>{btn.style.display=mq.matches?'flex':'none';};
+  update(); mq.addEventListener?.('change',update);
+  const section=document.querySelector('#configurator');
+  if('IntersectionObserver' in window && section){
+    const observer=new IntersectionObserver(entries=>{
+      const visible=entries[0].isIntersecting;
+      if(mq.matches)btn.style.display=visible?'none':'flex';
+    },{threshold:0.12});
+    observer.observe(section);
+  }
+}
+
 function init(){
-  renderCatalog();renderConfiguratorCatalog();updateSummary();addWhatsAppButton();
+  renderCatalog();renderConfiguratorCatalog();updateSummary();addWhatsAppButton();addMobileConfiguratorButton();
   document.querySelectorAll('.event-choice').forEach(b=>b.onclick=()=>{state.eventType=b.dataset.type;document.querySelectorAll('.event-choice').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');});
   document.querySelector('#guests').oninput=e=>{state.guests=Math.max(1,Number(e.target.value)||0);updateSummary();};
   document.querySelector('#eventDate').oninput=e=>{state.date=e.target.value;updateSummary();};

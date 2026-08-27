@@ -34,3 +34,15 @@ footer{display:flex;justify-content:space-between;align-items:center;padding:30p
 .pricing-disclaimer{padding:90px 5vw;border-top:1px solid var(--line);background:var(--paper)}.pricing-disclaimer-inner{max-width:820px;margin:0 auto;text-align:center}.pricing-disclaimer h2{font-family:"Playfair Display",serif;font-size:clamp(34px,4vw,56px);line-height:1;margin:12px 0 20px;letter-spacing:-.03em}.pricing-disclaimer p:not(.eyebrow){color:var(--muted);font-size:13px;line-height:1.8;max-width:720px;margin:0 auto}.pricing-disclaimer strong{color:var(--ink)}
 
 .config-product:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(20,20,18,.08);border-color:#cbc8bd}.config-product:focus-visible{outline:2px solid var(--ink);outline-offset:2px}.config-product .qty{cursor:default}
+
+@media(max-width:700px){
+  body{padding-bottom:72px}
+  .site-header{height:68px}
+  .header-cta{font-size:10px;padding:10px 12px}
+  .configurator{padding-top:70px}
+  .config-head{margin-bottom:32px}
+  .config-main{padding:20px 16px;min-height:0}
+  .config-actions{gap:10px}
+  .config-actions .button{flex:1;text-align:center}
+  .event-summary{padding:24px 20px}
+}
